@@ -7,23 +7,22 @@ module Angularjs
     argument :controller_name, :type => :string
 
     def init_vars
-      p @model_name = controller_name.singularize #"Post"
-      p @controller = controller_name #"Posts"
-      p @resource_name = @model_name.demodulize.underscore #post
-      p @plural_model_name = @resource_name.pluralize #posts
+       @model_name = controller_name.singularize #"Post"
+       @controller = controller_name #"Posts"
+       @resource_name = @model_name.demodulize.underscore #post
+       @plural_model_name = @resource_name.pluralize #posts
     end
 
     def columns
       begin
         excluded_column_names = %w[id _id _type created_at updated_at]
-        p @model_name.constantize.columns.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| ::Rails::Generators::GeneratedAttribute.new(c.name, c.type)}
+        @model_name.constantize.columns.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| ::Rails::Generators::GeneratedAttribute.new(c.name, c.type)}
       rescue NoMethodError
-        p @model_name.constantize.fields.collect{|c| c[1]}.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| ::Rails::Generators::GeneratedAttribute.new(c.name, c.type.to_s)}
+        @model_name.constantize.fields.collect{|c| c[1]}.reject{|c| excluded_column_names.include?(c.name) }.collect{|c| ::Rails::Generators::GeneratedAttribute.new(c.name, c.type.to_s)}
       end
     end
 
     def generate
-      puts 'LOL'
       remove_file "app/assets/stylesheets/scaffolds.css.scss"
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name}_controller"

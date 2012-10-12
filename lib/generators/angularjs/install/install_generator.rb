@@ -29,7 +29,6 @@ module Angularjs
     end
 
     def init_twitter_bootstrap_assets
-      p options.inspect
       unless options["no-bootstrap"]
         directory "fonts", "app/assets/fonts/"
         directory "fontawesome", "app/assets/stylesheets/fontawesome/"
