@@ -7,11 +7,11 @@ require "angularjs_scaffold/version"
 Gem::Specification.new do |s|
   s.name        = "angularjs_scaffold"
   s.version     = AngularjsScaffold::VERSION
-  s.authors     = ["lol Your name"]
-  s.email       = ["lol Your email"]
+  s.authors     = ["Patrick Aljord"]
+  s.email       = ["patcito@gmail.com"]
   s.homepage    = "http://ricodigo.com"
-  s.summary     = "lol Summary of AngularjsScaffold."
-  s.description = "lol Description of AngularjsScaffold."
+  s.summary     = "Angularjs scaffolding."
+  s.description = "A rails plugin for scaffolding views using Angular.js, Twitter bootstrap and font awesome."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
