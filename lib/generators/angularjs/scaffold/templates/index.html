@@ -1,0 +1,41 @@
+<h1><%= @controller %></h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Actions</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="<%= @resource_name%> in <%= @plural_model_name%>">
+      <td>
+        <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}">
+          {{<%= @resource_name%>.title}}
+        </a>
+      </td>
+      <td>
+        {{<%= @resource_name%>.created_at}}
+      </td>
+      <td>
+        <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}/edit"
+          class="btn btn-primary"><i class="icon-edit"></i>
+          Edit
+        </a>
+        <button ng-click="destroy()" class="btn btn-danger">
+          <i class="icon-trash"></i> Delete
+        </button>
+      </td>
+      <td>
+        {{<%= @resource_name%>.created_at}}
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  <a href='/<%= @plural_model_name%>/new' class="btn btn-primary">
+    <i class="icon-plus"></i>New
+  </a>
+</p>

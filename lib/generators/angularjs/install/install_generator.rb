@@ -8,13 +8,14 @@ module Angularjs
     class_option 'no-bootstrap', :type => :boolean, :aliases => ["-nb"],
       desc: "Don't include bootstrap"
 
-    def init_angularjs
+    def init_angularjs
       if File.exist?('app/assets/javascripts/application.js')
         insert_into_file "app/assets/javascripts/application.js",
           "//= require_tree ./angularjs/\n", :after => "jquery_ujs\n"
       else
         copy_file "application.js", "app/assets/javascripts/application.js"
       end
+      directory "underscore", "app/assets/javascripts/underscoree/"
       directory "angularjs", "app/assets/javascripts/angularjs/"
       if options["no-jquery"]
         gsub_file "app/assets/javascripts/application.js",
@@ -30,6 +31,8 @@ module Angularjs
     def init_twitter_bootstrap_assets
       p options.inspect
       unless options["no-bootstrap"]
+        directory "fonts", "app/assets/fonts/"
+        directory "fontawesome", "app/assets/stylesheets/fontawesome/"
         directory "bootstrap/css", "app/assets/stylesheets/bootstrap/"
         directory "bootstrap/js", "app/assets/javascripts/bootstrap/"
         directory "bootstrap/img", "app/assets/images/bootstrap/"
@@ -38,6 +41,9 @@ module Angularjs
         insert_into_file "app/assets/stylesheets/application.css",
           " *= require bootstrap/bootstrap-responsive.min.css\n",
           :after => "bootstrap.min.css\n"
+        insert_into_file "app/assets/stylesheets/application.css",
+          " *= require fontawesome/font-awesome.css\n",
+          :after => "bootstrap-responsive.min.css\n"
         append_to_file "app/assets/stylesheets/application.css",
           "\nbody { padding-top: 60px; }\n"
         unless options["no-jquery"]
@@ -71,6 +77,19 @@ module Angularjs
         "//= require welcome_controller\n"
       append_to_file "app/assets/stylesheets/application.css",
         ".center {text-align: center;}\n"
+      insert_into_file "app/controllers/application_controller.rb",
+%{
+  private
+
+  # AngularJS automatically sends CSRF token as a header called X-XSRF
+  # this makes sure rails gets it
+  def verified_request?
+    !protect_against_forgery? || request.get? ||
+      form_authenticity_token == params[request_forgery_protection_token] ||
+      form_authenticity_token == request.headers['X-XSRF-Token']
+  end
+ }, :before => "end"
+
     end
   end
 end

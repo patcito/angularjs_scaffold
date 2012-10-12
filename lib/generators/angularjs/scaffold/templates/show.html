@@ -1,0 +1,22 @@
+<h1><%= @model_name.titleize %></h1>
+
+<%- columns.each do |column| -%>
+<p>
+  <b><%= column.name.humanize %></b><br>
+  {{<%=@resource_name%>.<%= column.name %>}}
+</p>
+
+<%- end -%>
+<div class="form-actions">
+  <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}/edit"
+    class="btn btn-primary"><i class="icon-edit"></i>
+    Edit <%= @model_name.titleize %>
+  </a>
+  <button ng-click="destroy()" class="btn btn-danger">
+    <i class="icon-trash"></i> Delete
+  </button>
+  <a href="/<%= @resource_name%>s" class="btn">
+    Back to <%= @plural_model_name%>
+  </a>
+</div>
+
