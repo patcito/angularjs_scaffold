@@ -8,12 +8,18 @@ module Angularjs
     class_option 'no-bootstrap', :type => :boolean, :aliases => ["-nb"],
       desc: "Don't include bootstrap"
 
-    def init_angularjs
+    def init_angularjs
       if File.exist?('app/assets/javascripts/application.js')
         insert_into_file "app/assets/javascripts/application.js",
           "//= require_tree ./angularjs/\n", :after => "jquery_ujs\n"
       else
         copy_file "application.js", "app/assets/javascripts/application.js"
+      end
+      @application_css_file ='app/assets/stylesheets/application.css'
+      if (!(File.exist?('app/assets/stylesheets/application.css')) && File.exist?('app/assets/stylesheets/application.css.scss')) 
+        @application_css_file ='app/assets/stylesheets/application.css.scss'          
+      else
+        create_file @application_css_file
       end
       directory "underscore", "app/assets/javascripts/underscoree/"
       directory "angularjs", "app/assets/javascripts/angularjs/"
@@ -35,15 +41,15 @@ module Angularjs
         directory "bootstrap/css", "app/assets/stylesheets/bootstrap/"
         directory "bootstrap/js", "app/assets/javascripts/bootstrap/"
         directory "bootstrap/img", "app/assets/images/bootstrap/"
-        insert_into_file "app/assets/stylesheets/application.css",
+        insert_into_file @application_css_file,
           " *= require bootstrap/bootstrap.min.css\n", :after => "require_self\n"
-        insert_into_file "app/assets/stylesheets/application.css",
+        insert_into_file @application_css_file,
           " *= require bootstrap/bootstrap-responsive.min.css\n",
           :after => "bootstrap.min.css\n"
-        insert_into_file "app/assets/stylesheets/application.css",
+        insert_into_file @application_css_file,
           " *= require fontawesome/font-awesome.css\n",
           :after => "bootstrap-responsive.min.css\n"
-        append_to_file "app/assets/stylesheets/application.css",
+        append_to_file @application_css_file,
           "\nbody { padding-top: 60px; }\n"
         unless options["no-jquery"]
           insert_into_file "app/assets/javascripts/application.js",
@@ -74,7 +80,7 @@ module Angularjs
         "//= require routes\n"
       append_to_file "app/assets/javascripts/application.js",
         "//= require welcome_controller\n"
-      append_to_file "app/assets/stylesheets/application.css",
+      append_to_file @application_css_file,
         ".center {text-align: center;}\n"
       insert_into_file "app/controllers/application_controller.rb",
 %{
