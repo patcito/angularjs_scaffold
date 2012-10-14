@@ -16,9 +16,10 @@ module Angularjs
         copy_file "application.js", "app/assets/javascripts/application.js"
       end
       @application_css_file ='app/assets/stylesheets/application.css'
-      if (!(File.exist?('app/assets/stylesheets/application.css')) && File.exist?('app/assets/stylesheets/application.css.scss')) 
-        @application_css_file ='app/assets/stylesheets/application.css.scss'          
-      else
+      if (!(File.exist?('app/assets/stylesheets/application.css')) &&
+          File.exist?('app/assets/stylesheets/application.css.scss'))
+        @application_css_file ='app/assets/stylesheets/application.css.scss'
+      elsif !File.exist?('app/assets/stylesheets/application.css')
         create_file @application_css_file
       end
       directory "underscore", "app/assets/javascripts/underscoree/"
@@ -30,7 +31,6 @@ module Angularjs
           /\/\/= require jquery\n/, ''
         #gsub_file "app/assets/javascripts/application.js",
         #  /^$\n/, ''
-
       end
     end
 
