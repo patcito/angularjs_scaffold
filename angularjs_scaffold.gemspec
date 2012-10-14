@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Angularjs scaffolding."
   s.description = "A rails plugin for scaffolding views using Angular.js, Twitter bootstrap and font awesome."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.6"
