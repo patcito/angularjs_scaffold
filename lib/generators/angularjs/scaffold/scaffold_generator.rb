@@ -37,9 +37,9 @@ module Angularjs
     def generate
       remove_file "app/assets/stylesheets/scaffolds.css.scss"
       append_to_file "app/assets/javascripts/application.js",
-        "//= require #{@plural_model_name}_controller"
+        "//= require #{@plural_model_name}_controller \n"
       append_to_file "app/assets/javascripts/application.js",
-        "//= require #{@plural_model_name}"
+        "//= require #{@plural_model_name} \n"
       insert_into_file "app/assets/javascripts/routes.js.erb",
         ", '#{@plural_model_name}'", :after => "'ngCookies'"
       insert_into_file "app/assets/javascripts/routes.js.erb",
