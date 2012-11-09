@@ -72,10 +72,10 @@ module Angularjs
       copy_file "AngularJS-medium.png", 'app/assets/images/AngularJS-medium.png'
       empty_directory 'app/assets/templates'
       empty_directory 'app/assets/templates/welcome'
-      copy_file "index_welcome.html", 'app/assets/templates/welcome/index.html'
-      copy_file "routes.js.erb", "app/assets/javascripts/routes.js.erb"
-      copy_file "welcome_controller.js",
-        "app/assets/javascripts/welcome_controller.js"
+      copy_file "index_welcome.html.erb", 'app/assets/templates/welcome/index.html.erb'
+      copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
+      copy_file "welcome_controller.js.coffee",
+        "app/assets/javascripts/welcome_controller.js.coffee"
       append_to_file "app/assets/javascripts/application.js",
         "//= require routes\n"
       append_to_file "app/assets/javascripts/application.js",
