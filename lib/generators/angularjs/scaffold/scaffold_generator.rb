@@ -43,7 +43,7 @@ module Angularjs
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
         ", '#{@plural_model_name}'", :after => "'ngCookies'"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
-%{  when("/#{@plural_model_name}",
+%{when("/#{@plural_model_name}",
     controller: #{@controller}IndexCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/index.html\") %>"
   ).when("/#{@plural_model_name}/new",
@@ -55,7 +55,7 @@ module Angularjs
   ).when("/#{@plural_model_name}/:id/edit",
     controller: #{@controller}EditCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/edit.html\") %>"
-  )}, :before => 'otherwise'
+  ).}, :before => 'otherwise'
       inject_into_class "app/controllers/#{@plural_model_name}_controller.rb",
         "#{@controller}Controller".constantize, "respond_to :json\n"
       template "new.html.erb",
