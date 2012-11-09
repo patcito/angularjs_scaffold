@@ -17,4 +17,4 @@ angular.module(<%= '"' + "#{@plural_model_name}" + '"' %>, ["ngResource"]).facto
 
   <%= "#{@model_name}" %>
 
-root.<%= "#{@model_name}"%> = <%= "#{@model_name}" %>
+root.angular = angular
