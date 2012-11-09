@@ -10,7 +10,7 @@ angapp = angular.module("angapp", ["ngCookies"]).config(($routeProvider, $locati
   $locationProvider.html5Mode true
   $routeProvider.when("/",
     controller: "WelcomeCtrl"
-    templateUrl: "<%= asset_path(\"welcome/index.html\") %>"
+    templateUrl: "<%= asset_path('welcome/index.html') %>"
   ).otherwise redirectTo: "/"
 )
 
