@@ -49,7 +49,7 @@ module Angularjs
   ).when("/#{@plural_model_name}/new",
     controller: #{@controller}CreateCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/new.html\") %>"
-  ).when("/#{@model_name}/:id",
+  ).when("/#{@plural_model_name}/:id",
     controller: #{@controller}ShowCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/show.html\") %>"
   ).when("/#{@plural_model_name}/:id/edit",
