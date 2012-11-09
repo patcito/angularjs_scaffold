@@ -55,17 +55,17 @@ module Angularjs
 }, :before => 'otherwise'
       inject_into_class "app/controllers/#{@plural_model_name}_controller.rb",
         "#{@controller}Controller".constantize, "respond_to :json\n"
-      template "new.html",
-        "app/assets/templates/#{@plural_model_name}/new.html"
-      template "edit.html",
-        "app/assets/templates/#{@plural_model_name}/edit.html"
-      template "show.html",
-        "app/assets/templates/#{@plural_model_name}/show.html"
-      template "index.html",
-        "app/assets/templates/#{@plural_model_name}/index.html"
-      template "plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
-      template "plural_model_name_controller.js",
-        "app/assets/javascripts/#{@plural_model_name}_controller.js"
+      template "new.html.erb",
+        "app/assets/templates/#{@plural_model_name}/new.html.erb"
+      template "edit.html.erb",
+        "app/assets/templates/#{@plural_model_name}/edit.html.erb"
+      template "show.html.erb",
+        "app/assets/templates/#{@plural_model_name}/show.html.erb"
+      template "index.html.erb",
+        "app/assets/templates/#{@plural_model_name}/index.html.erb"
+      template "plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
+      template "plural_model_name_controller.js.coffee",
+        "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"
     end
   end
 end
