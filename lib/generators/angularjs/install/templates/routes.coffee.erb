@@ -1,16 +1,17 @@
-var angapp = angular.module('angapp', ['ngCookies']).
-  config(function($routeProvider, $locationProvider) {
-  //$locationProvider.hashPrefix('');
-  $locationProvider.html5Mode(true);
-  $routeProvider.
-      when('/', {controller: 'WelcomeCtrl',
-         templateUrl:'<%= asset_path("welcome/index.html") %>'}).
-    otherwise({redirectTo:'/'});
-});
+root = global ? window
 
-function CsrfCtrl($cookieStore){
-  $cookieStore.put("XSRF-TOKEN",
-                   angular.element(document.getElementById('csrf')).
-                   attr('data-csrf'));
-}
+CsrfCtrl = ($cookieStore) ->
+  $cookieStore.put "XSRF-TOKEN", angular.element(document.getElementById("csrf")).attr("data-csrf")
+root.CsrfCtrl = CsrfCtrl
+
+angapp = angular.module("angapp", ["ngCookies"]).config(($routeProvider, $locationProvider) ->
+  #$locationProvider.hashPrefix('');
+  $locationProvider.html5Mode true
+  $routeProvider.when("/",
+    controller: "WelcomeCtrl"
+    templateUrl: "<%= asset_path(\"welcome/index.html\") %>"
+  ).otherwise redirectTo: "/"
+)
+
+root.angapp = angapp
 

@@ -43,16 +43,19 @@ module Angularjs
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
         ", '#{@plural_model_name}'", :after => "'ngCookies'"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
-%{    when('/#{@plural_model_name}', {controller:#{@controller}IndexCtrl,
-         templateUrl:'<%= asset_path("#{@plural_model_name}/index.html") %>'}).
-    when('/#{@plural_model_name}/new', {controller:#{@controller}CreateCtrl,
-                templateUrl:'<%= asset_path("#{@plural_model_name}/new.html") %>'}).
-    when('/#{@plural_model_name}/:id', {controller:#{@controller}ShowCtrl,
-         templateUrl:'<%= asset_path("#{@plural_model_name}/show.html") %>'}).
-    when('/#{@plural_model_name}/:id/edit', {controller:#{@controller}EditCtrl,
-         templateUrl:'<%= asset_path("#{@plural_model_name}/edit.html") %>'}).\n
-
-}, :before => 'otherwise'
+%{  when("/#{@plural_model_name}",
+    controller: #{@plural_model_name}IndexCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/index.html\") %>"
+  ).when("/#{@plural_model_name}/new",
+    controller: #{@plural_model_name}CreateCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/new.html\") %>"
+  ).when("/#{@plural_model_name}/:id",
+    controller: #{@plural_model_name}ShowCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/show.html\") %>"
+  ).when("/#{@plural_model_name}/:id/edit",
+    controller: #{@plural_model_name}EditCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/edit.html\") %>"
+  )}, :before => 'otherwise'
       inject_into_class "app/controllers/#{@plural_model_name}_controller.rb",
         "#{@controller}Controller".constantize, "respond_to :json\n"
       template "new.html.erb",

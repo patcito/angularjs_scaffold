@@ -1,39 +1,20 @@
-angular.module('<%= @plural_model_name%>', ['ngResource']).
-  factory('<%= @model_name%>', function($resource) {
-  var <%= @model_name%> = $resource('/<%= @plural_model_name%>/:id', {id: '@id'},
-                       {
-                         update: { method: 'PUT' },
-                         destroy: { method: 'DELETE'}
-                       }
-                      );
+root = global ? window
 
-  <%= @model_name%>.prototype.destroy = function(cb) {
-    return <%= @model_name%>.remove({id: this.id}, cb);
-  };
+angular.module("#{@plural_model_name}", ["ngResource"]).factory "#{@model_name}", ($resource) ->
+  #{@model_name} = $resource("/#{@plural_model_name}/:id",
+    id: "@id"
+  ,
+    update:
+      method: "PUT"
 
-  return <%= @model_name%>;
-});
-/*
-angular.module('<%= @plural_model_name%>', ['ngResource']).
-  factory('<%= @model_name%>', function($resource) {
-  var <%= @model_name%> = $resource('/<%= @plural_model_name%>/:id',
-                       {}, {
-                         update: { method: 'PUT' },
-                         destroy: { method: 'DELETE'}
-                       }
-                      );
+    destroy:
+      method: "DELETE"
+  )
+  #{@model_name}::destroy = (cb) ->
+    #{@model_name}.remove
+      id: @id
+    , cb
 
-                      <%= @model_name%>.prototype.update = function(cb) {
-                        return <%= @model_name%>.update({id: this._id},
-                                           angular.extend({},
-                                                          this,
-                                                          {id:undefined}), cb);
-                      };
+  #{@model_name}
 
-                      <%= @model_name%>.prototype.destroy = function(cb) {
-                        return <%= @model_name%>.remove({id: this._id}, cb);
-                      };
-
-                      return <%= @model_name%>;
-});
-*/
+root.#{@model_name} = #{@model_name}

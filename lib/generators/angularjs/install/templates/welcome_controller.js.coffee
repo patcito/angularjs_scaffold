@@ -1,3 +1,7 @@
-angapp.controller('WelcomeCtrl', function() {
-});
+root = global ? window
+
+angapp = root.angapp
+
+angapp.controller "WelcomeCtrl", ->
+
 
