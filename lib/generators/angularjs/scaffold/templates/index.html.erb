@@ -1,11 +1,9 @@
 <h1><%= @controller %></h1>
-columns: <%= columns %>
 <table class="table table-striped">
   <thead>
     <tr>
-      <%- columns.each do |column| %>
-        <th><%= column.name -%></th>
-      <%- end -%>
+      <th><%= @resource_legend %></th>
+      <th>Created at</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -16,9 +14,9 @@ columns: <%= columns %>
           {{<%= "#{@resource_name}.#{@resource_legend.downcase}"%>}}
         </a>
       </td>
-      <%- columns.each do |column| %>
-        <td>{{<%= @resource.#{column.name} -%>}}</td>
-      <%- end -%>
+      <td>
+        {{<%= @resource_name%>.created_at}}
+      </td>
       <td>
         <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}/edit"
           class="btn btn-primary"><i class="icon-edit"></i>
