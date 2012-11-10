@@ -41,7 +41,7 @@ module Angularjs
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name} \n"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
-        ", #{@plural_model_name}", :before => "]"
+        ", '"'#{@plural_model_name}'"' ", :before => "]"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
 %{when("/#{@plural_model_name}",
     controller: #{@controller}IndexCtrl
