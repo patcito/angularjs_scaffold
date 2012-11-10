@@ -23,14 +23,14 @@ module Angularjs
         @model_name.constantize.columns.
           reject{|c| excluded_column_names.include?(c.name) }.
           collect{|c| ::Rails::Generators::GeneratedAttribute.
-                  new(c.name, c.field_type)}
+                  new(c.name, c.type)}
       rescue NoMethodError
         @model_name.constantize.fields.
           collect{|c| c[1]}.
           reject{|c| excluded_column_names.include?(c.name) }.
           collect{|c|
             ::Rails::Generators::GeneratedAttribute.
-              new(c.name, c.field_type.to_s)}
+              new(c.name, c.type.to_s)}
       end
     end
 
