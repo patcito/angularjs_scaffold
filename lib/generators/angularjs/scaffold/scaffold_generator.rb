@@ -40,7 +40,7 @@ module Angularjs
         "//= require #{@plural_model_name}_controller \n"
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name} \n"
-      str = "'" + "#{@plural_model_name}" + '"'
+      str = "'" + "#{@plural_model_name}" + "'"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
         ", #{str}", :before => "]"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
