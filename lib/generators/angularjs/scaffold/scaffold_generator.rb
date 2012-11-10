@@ -15,6 +15,7 @@ module Angularjs
         each{|c|
           (['name','title'].include?(c.name)) ? @resource_legend = c.name.capitalize : ''}
       @resource_legend = 'ID' if @resource_legend.blank?
+      @columns = columns
     end
 
     def columns
@@ -66,6 +67,8 @@ module Angularjs
         "app/assets/templates/#{@plural_model_name}/show.html.erb"
       template "index.html.erb",
         "app/assets/templates/#{@plural_model_name}/index.html.erb"
+      insert_into_file "app/assets/templates/#{@plural_model_name}/index.html.erb",
+        @columns, :after => '</td>'
       template "plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
       template "plural_model_name_controller.js.coffee",
         "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"

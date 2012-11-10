@@ -5,7 +5,7 @@ CsrfCtrl = ($cookieStore) ->
   $cookieStore.put "XSRF-TOKEN", angular.element(document.getElementById("csrf")).attr("data-csrf")
 root.CsrfCtrl = CsrfCtrl
 
-angapp = angular.module("angapp", ["ngCookies"]).config(($routeProvider, $locationProvider) ->
+angapp = angular.module("angapp", ['ngCookies']).config(($routeProvider, $locationProvider) ->
   #$locationProvider.hashPrefix('');
   $locationProvider.html5Mode true
   $routeProvider.when("/",
