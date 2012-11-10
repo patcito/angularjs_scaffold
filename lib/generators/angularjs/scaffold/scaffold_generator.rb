@@ -23,14 +23,14 @@ module Angularjs
         @model_name.constantize.columns.
           reject{|c| excluded_column_names.include?(c.name) }.
           collect{|c| ::Rails::Generators::GeneratedAttribute.
-                  new(c.name, c.type)}
+                  new(c.name, c.field_type)}
       rescue NoMethodError
         @model_name.constantize.fields.
           collect{|c| c[1]}.
           reject{|c| excluded_column_names.include?(c.name) }.
           collect{|c|
             ::Rails::Generators::GeneratedAttribute.
-              new(c.name, c.type.to_s)}
+              new(c.name, c.field_type.to_s)}
       end
     end
 
@@ -40,11 +40,10 @@ module Angularjs
         "//= require #{@plural_model_name}_controller \n"
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name} \n"
-      str = "'" + "#{@plural_model_name}" + "'"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
-        ", #{str}", :before => "]"
+        ", \'#{@plural_model_name}\'", :before => "]"
       insert_into_file "app/assets/javascripts/routes.coffee.erb",
-%{when("/#{@plural_model_name}",
+%{when("/#{@plural_model_name}", 
     controller: #{@controller}IndexCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/index.html\") %>"
   ).when("/#{@plural_model_name}/new",
