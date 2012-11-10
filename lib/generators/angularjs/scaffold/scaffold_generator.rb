@@ -67,8 +67,8 @@ module Angularjs
         "app/assets/templates/#{@plural_model_name}/show.html.erb"
       template "index.html.erb",
         "app/assets/templates/#{@plural_model_name}/index.html.erb"
-      insert_into_file "app/assets/templates/#{@plural_model_name}/index.html.erb",
-        @columns, :after => '</td>'
+      # insert_into_file "app/assets/templates/#{@plural_model_name}/index.html.erb",
+      #   @columns, :after => '</td>'
       template "plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
       template "plural_model_name_controller.js.coffee",
         "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"
