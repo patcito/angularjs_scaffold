@@ -36,6 +36,6 @@ No big deal, but this makes it clear that the AngularJs templates can take advan
 
     routes.coffee.erb
 
-where the AngularJS routes are populated by Rails route helpers.  It just makes sense that the server should specify to the view how it can be accessed.
+where the AngularJS routes are populated by Rails route helpers.  It just makes sense that the server should specify to the view how it should be accessed.
 
 Enjoy!
