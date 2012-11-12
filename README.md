@@ -30,7 +30,7 @@ Another change I made to this scaffold is adding the .erb extension on the gener
 
 becomes 
 
-  index.html.erb.  
+    index.html.erb
 
 No big deal, but this makes it clear that the AngularJs templates can take advantage of 'server-side provisioning'.  If that term is unclear, I suggest you look at the file 
 
