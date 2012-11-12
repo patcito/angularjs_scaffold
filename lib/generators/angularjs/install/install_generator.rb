@@ -22,7 +22,7 @@ module Angularjs
       elsif !File.exist?('app/assets/stylesheets/application.css')
         create_file @application_css_file
       end
-      directory "underscore", "app/assets/javascripts/underscoree/"
+      directory "underscore", "app/assets/javascripts/underscore/"
       directory "angularjs", "app/assets/javascripts/angularjs/"
       if options["no-jquery"]
         gsub_file "app/assets/javascripts/application.js",
