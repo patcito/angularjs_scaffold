@@ -1,4 +1,4 @@
-## AngularjsScaffold
+## AngularjsScaffold + CoffeeScript
 
 A rails plugin for scaffolding views using Angular.js, Twitter bootstrap
 and font awesome
@@ -21,5 +21,9 @@ Run your usual scaffold command:
 Now run the angularjs command and it will rewrite everything the AngularJS way:
 
     $ rails g angularjs:scaffold Posts # adds everything needed using AngularJS
+
+The "AngularJS way", in my opinion, follows the Unobtrusive Javascript paradigm, but uses CoffeeScript in place of Javascript.  To me, Javascript is like programming in Assembler, while CoffeeScript is much more readable, and produces very high quality JS as output.  When combined with the Rails asset pipeline, CoffeeScript has a lot of advantages, and little or no downside.  What's not to like?
+
+Another change I made to this scaffold is adding the .erb extension on the generated template files, so index.html becomes index.html.erb.  No big deal, but this makes it clear that the AngularJs templates can take advantage of 'server-side provisioning'.  If that term is unclear, I suggest you look at the file routes.coffee.erb, where the AngularJS routes are populated by Rails route helpers.  It just makes sense that the server should specify to the view how it can be accessed.
 
 Enjoy!
