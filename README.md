@@ -18,14 +18,15 @@ Second install it, this will add angularjs, bootstrap and fontawesome (there's a
       --layout-type=fixed [fluid]
       --no-jquery
       --no-bootstrap
-      --language=coffeescript [javascript]  NOTE: this setting will be set for the entire rails app and will affect all subsequent 'rails generate angularjs:scaffold <<model>>' commands
+      --language=coffeescript [javascript]  NOTE: this setting will be set for the entire rails app 
+        and will affect all subsequent 'rails generate angularjs:scaffold <<model>>' commands
 
 Run your usual scaffold command:
 
     $ rails g scaffold Post title:string body:string
     $ rake db:migrate
 
-Now run the angularjs command and it will rewrite everything the AngularJS way:
+Now run the angularjs:scaffold command and it will rewrite everything the AngularJS way:
 
     $ rails g angularjs:scaffold Posts # adds everything needed using AngularJS
 
