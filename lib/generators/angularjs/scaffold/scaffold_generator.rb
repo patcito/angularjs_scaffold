@@ -5,6 +5,22 @@ module Angularjs
   class ScaffoldGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
     argument :controller_name, :type => :string
+    class_option 'language', :type => :string, :default => 'coffeescript'
+
+    # HACK ALERT
+    # Since I can't find a thor method that checks for the existence of a file,
+    # I am forced to hackery.  I assume that the language selected was 'javascript'.
+    # I attempt to add a blank line to the end of 'app/assets/javascripts/routes.js.erb', 
+    # and if that fails, then I catch the exception and assume that the selected language option is 'coffeescript'
+    def language_option
+      answer = 'javascript'
+      begin
+        append_to_file "app/assets/javascripts/routes.js.erb", "\n"
+      rescue Exception
+        answer = 'coffeescript'
+      end
+      answer
+    end
 
     def init_vars
       @model_name = controller_name.singularize #"Post"
@@ -15,6 +31,7 @@ module Angularjs
         each{|c|
           (['name','title'].include?(c.name)) ? @resource_legend = c.name.capitalize : ''}
       @resource_legend = 'ID' if @resource_legend.blank?
+      @language = language_option # 'coffeescript or javascript'
     end
 
     def columns
@@ -40,9 +57,27 @@ module Angularjs
         "//= require #{@plural_model_name}_controller \n"
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name} \n"
-      insert_into_file "app/assets/javascripts/routes.js.erb",
+      if @language == 'coffeescript'
+        insert_into_file "app/assets/javascripts/routes.coffee.erb",
+        ", \'#{@plural_model_name}\'", :before => "]"
+        insert_into_file "app/assets/javascripts/routes.coffee.erb",
+%{when("/#{@plural_model_name}", 
+    controller: #{@controller}IndexCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/index.html\") %>"
+  ).when("/#{@plural_model_name}/new",
+    controller: #{@controller}CreateCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/new.html\") %>"
+  ).when("/#{@plural_model_name}/:id",
+    controller: #{@controller}ShowCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/show.html\") %>"
+  ).when("/#{@plural_model_name}/:id/edit",
+    controller: #{@controller}EditCtrl
+    templateUrl: "<%= asset_path(\"#{@plural_model_name}/edit.html\") %>"
+  ).}, :before => 'otherwise'
+      else
+        insert_into_file "app/assets/javascripts/routes.js.erb",
         ", '#{@plural_model_name}'", :after => "'ngCookies'"
-      insert_into_file "app/assets/javascripts/routes.js.erb",
+        insert_into_file "app/assets/javascripts/routes.js.erb",
 %{    when('/#{@plural_model_name}', {controller:#{@controller}IndexCtrl,
          templateUrl:'<%= asset_path("#{@plural_model_name}/index.html") %>'}).
     when('/#{@plural_model_name}/new', {controller:#{@controller}CreateCtrl,
@@ -51,21 +86,31 @@ module Angularjs
          templateUrl:'<%= asset_path("#{@plural_model_name}/show.html") %>'}).
     when('/#{@plural_model_name}/:id/edit', {controller:#{@controller}EditCtrl,
          templateUrl:'<%= asset_path("#{@plural_model_name}/edit.html") %>'}).\n
-
 }, :before => 'otherwise'
+      end
+      
       inject_into_class "app/controllers/#{@plural_model_name}_controller.rb",
         "#{@controller}Controller".constantize, "respond_to :json\n"
-      template "new.html",
-        "app/assets/templates/#{@plural_model_name}/new.html"
-      template "edit.html",
-        "app/assets/templates/#{@plural_model_name}/edit.html"
-      template "show.html",
-        "app/assets/templates/#{@plural_model_name}/show.html"
-      template "index.html",
-        "app/assets/templates/#{@plural_model_name}/index.html"
-      template "plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
-      template "plural_model_name_controller.js",
-        "app/assets/javascripts/#{@plural_model_name}_controller.js"
+      template "new.html.erb",
+        "app/assets/templates/#{@plural_model_name}/new.html.erb"
+      template "edit.html.erb",
+        "app/assets/templates/#{@plural_model_name}/edit.html.erb"
+      template "show.html.erb",
+        "app/assets/templates/#{@plural_model_name}/show.html.erb"
+      template "index.html.erb",
+        "app/assets/templates/#{@plural_model_name}/index.html.erb"
+      
+      if @language == 'coffeescript'
+        template "cs/plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
+        template "cs/plural_model_name_controller.js.coffee",
+          "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"
+      else
+        template "js/plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
+        template "js/plural_model_name_controller.js",
+          "app/assets/javascripts/#{@plural_model_name}_controller.js"
+        # remove the default .js.coffee file added by rails.
+        remove_file "app/assets/javascripts/#{@plural_model_name}.js.coffee"
+      end
     end
   end
 end
