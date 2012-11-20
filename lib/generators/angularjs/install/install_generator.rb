@@ -7,6 +7,8 @@ module Angularjs
       desc: "Don't include jquery"
     class_option 'no-bootstrap', :type => :boolean, :aliases => ["-nb"],
       desc: "Don't include bootstrap"
+    class_option 'language', :type => :string, :default => 'coffeescript', :aliases => ["-ln"],
+      desc: "Choose your preferred language, 'coffeescript' or 'javascript' "
 
     def init_angularjs
       if File.exist?('app/assets/javascripts/application.js')
@@ -58,11 +60,15 @@ module Angularjs
       end
     end
 
-    attr_reader :app_name, :container_class
+    attr_reader :app_name, :container_class, :language
     def init_twitter_bootstrap_layout
       @app_name = Rails.application.class.parent_name
       @container_class = options["layout-type"] == "fluid" ? "container-fluid" : "container"
+      @language = options["language"] == 'javascript' ? "javascript" : "coffeescript"
       template "application.html.erb", "app/views/layouts/application.html.erb"
+      # create_file "angularjs.log" do
+      #   "@app_name --> #{@app_name}\n@container_class --> #{@container_class}\n@language --> #{@language}\n"
+      # end
     end
 
     def generate_welcome_controller
@@ -73,9 +79,17 @@ module Angularjs
       empty_directory 'app/assets/templates'
       empty_directory 'app/assets/templates/welcome'
       copy_file "index_welcome.html.erb", 'app/assets/templates/welcome/index.html.erb'
-      copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
-      copy_file "welcome_controller.js.coffee",
-        "app/assets/javascripts/welcome_controller.js.coffee"
+      if @language == 'coffeescript'
+        copy_file "cs/routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
+        insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, :before => 'Client'
+        copy_file "cs/welcome_controller.js.coffee",
+          "app/assets/javascripts/welcome_controller.js.coffee"
+      else
+        copy_file "js/routes.js.erb", "app/assets/javascripts/routes.js.erb"
+        insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, :before => 'Client'
+        copy_file "js/welcome_controller.js",
+          "app/assets/javascripts/welcome_controller.js"
+      end
       append_to_file "app/assets/javascripts/application.js",
         "//= require routes\n"
       append_to_file "app/assets/javascripts/application.js",
