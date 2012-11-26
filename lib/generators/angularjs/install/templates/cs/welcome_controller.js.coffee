@@ -1,7 +1,7 @@
 root = global ? window
 
-angapp = root.angapp
+theApp = root.theApp
 
-angapp.controller "WelcomeCtrl", ->
+theApp.controller "WelcomeCtrl", ->
 
 
