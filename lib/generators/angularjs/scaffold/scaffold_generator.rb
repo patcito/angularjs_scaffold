@@ -5,7 +5,6 @@ module Angularjs
   class ScaffoldGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
     argument :controller_name, :type => :string
-    class_option 'language', :type => :string, :default => 'coffeescript'
 
     # HACK ALERT
     # Since I can't find a thor method that checks for the existence of a file,

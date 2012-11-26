@@ -66,9 +66,6 @@ module Angularjs
       @container_class = options["layout-type"] == "fluid" ? "container-fluid" : "container"
       @language = options["language"] == 'javascript' ? "javascript" : "coffeescript"
       template "application.html.erb", "app/views/layouts/application.html.erb"
-      # create_file "angularjs.log" do
-      #   "@app_name --> #{@app_name}\n@container_class --> #{@container_class}\n@language --> #{@language}\n"
-      # end
     end
 
     def generate_welcome_controller
