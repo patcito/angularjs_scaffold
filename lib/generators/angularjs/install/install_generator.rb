@@ -73,6 +73,7 @@ module Angularjs
       uncomment_lines 'config/routes.rb', /root :to => 'welcome#index'/
         run "rails g controller welcome index"
       copy_file "AngularJS-medium.png", 'app/assets/images/AngularJS-medium.png'
+      copy_file 'favicon.ico', 'app/assets/images/favicon.ico'
       empty_directory 'app/assets/templates'
       empty_directory 'app/assets/templates/welcome'
       copy_file "index_welcome.html.erb", 'app/assets/templates/welcome/index.html.erb'

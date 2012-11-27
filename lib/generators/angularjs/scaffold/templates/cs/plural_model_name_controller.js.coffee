@@ -13,7 +13,7 @@ root = global ? window
 <%= @controller%>CreateCtrl = ($scope, $location, <%= @model_name%>) ->
   $scope.save = ->
     <%= @model_name%>.save $scope.<%= @resource_name%>, (<%= @resource_name%>) ->
-      $location.path "/<%= @resource_name%>s/" + <%= @resource_name%>.id + "/edit"
+      $location.path "/<%= @resource_name%>s/#{<%= @resource_name%>.id}/edit"
 
 <%= @controller%>ShowCtrl = ($scope, $location, $routeParams, <%= @model_name%>) ->
   <%= @model_name%>.get
