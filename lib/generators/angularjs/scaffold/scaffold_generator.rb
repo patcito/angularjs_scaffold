@@ -100,12 +100,12 @@ module Angularjs
         "app/assets/templates/#{@plural_model_name}/index.html.erb"
       
       if @language == 'coffeescript'
-        template "cs/plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
-        template "cs/plural_model_name_controller.js.coffee",
+        template "plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
+        template "plural_model_name_controller.js.coffee",
           "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"
       else
-        template "js/plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
-        template "js/plural_model_name_controller.js",
+        template "plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
+        template "plural_model_name_controller.js",
           "app/assets/javascripts/#{@plural_model_name}_controller.js"
         # remove the default .js.coffee file added by rails.
         remove_file "app/assets/javascripts/#{@plural_model_name}.js.coffee"

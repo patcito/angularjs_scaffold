@@ -42,7 +42,7 @@ module Angularjs
         directory "fontawesome", "app/assets/stylesheets/fontawesome/"
         directory "bootstrap/css", "app/assets/stylesheets/bootstrap/"
         directory "bootstrap/js", "app/assets/javascripts/bootstrap/"
-        directory "bootstrap/img", "app/assets/images/bootstrap/"
+        directory "bootstrap/img", "app/assets/javascripts/img/"
         insert_into_file @application_css_file,
           " *= require bootstrap/bootstrap.min.css\n", :after => "require_self\n"
         insert_into_file @application_css_file,
@@ -78,15 +78,21 @@ module Angularjs
       empty_directory 'app/assets/templates/welcome'
       copy_file "index_welcome.html.erb", 'app/assets/templates/welcome/index.html.erb'
       if @language == 'coffeescript'
-        copy_file "cs/routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
-        insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, :before => 'Client'
-        copy_file "cs/welcome_controller.js.coffee",
-          "app/assets/javascripts/welcome_controller.js.coffee"
+        copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
+        insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, before: 'Client'
+        ['csrf', 'welcome'].each do |prefix| 
+          copy_file "#{prefix}_controller.js.coffee",
+            "app/assets/javascripts/#{prefix}_controller.js.coffee"
+        end
+        insert_into_file "app/assets/javascripts/welcome_controller.js.coffee", @app_name, before: 'Client'
       else
-        copy_file "js/routes.js.erb", "app/assets/javascripts/routes.js.erb"
-        insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, :before => 'Client'
-        copy_file "js/welcome_controller.js",
-          "app/assets/javascripts/welcome_controller.js"
+        copy_file "routes.js.erb", "app/assets/javascripts/routes.js.erb"
+        insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, before: 'Client'
+        ['csrf', 'welcome'].each do |prefix| 
+          copy_file "#{prefix}_controller.js",
+            "app/assets/javascripts/#{prefix}_controller.js"
+        end
+        insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, :before => 'Client'
       end
       append_to_file "app/assets/javascripts/application.js",
         "//= require routes\n"

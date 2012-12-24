@@ -1,0 +1,15 @@
+root = global ? window
+angular = root.angular
+
+theApp = angular.module("Client", ["ngCookies"]).config(($routeProvider, $locationProvider) ->
+  $locationProvider.html5Mode true
+  $routeProvider.when("/",
+    controller: "WelcomeCtrl"
+    templateUrl: "<%= asset_path('welcome/index.html') %>"
+  ).otherwise redirectTo: "/"
+)
+
+root.theApp = theApp
+
+
+
