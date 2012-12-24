@@ -11,17 +11,17 @@ module Angularjs
       desc: "Choose your preferred language, 'coffeescript' or 'javascript' "
 
     def init_angularjs
-      if File.exist?('app/assets/javascripts/application.js')
+      if File.exist?("app/assets/javascripts/application.js")
         insert_into_file "app/assets/javascripts/application.js",
           "//= require_tree ./angularjs/\n", :after => "jquery_ujs\n"
       else
         copy_file "application.js", "app/assets/javascripts/application.js"
       end
-      @application_css_file ='app/assets/stylesheets/application.css'
-      if (!(File.exist?('app/assets/stylesheets/application.css')) &&
-          File.exist?('app/assets/stylesheets/application.css.scss'))
-        @application_css_file ='app/assets/stylesheets/application.css.scss'
-      elsif !File.exist?('app/assets/stylesheets/application.css')
+      @application_css_file ="app/assets/stylesheets/application.css"
+      if (!(File.exist?("app/assets/stylesheets/application.css")) &&
+          File.exist?("app/assets/stylesheets/application.css.scss"))
+        @application_css_file ="app/assets/stylesheets/application.css.scss"
+      elsif !File.exist?("app/assets/stylesheets/application.css")
         create_file @application_css_file
       end
       directory "underscore", "app/assets/javascripts/underscore/"
@@ -72,11 +72,11 @@ module Angularjs
       remove_file "public/index.html"
       uncomment_lines 'config/routes.rb', /root :to => 'welcome#index'/
         run "rails g controller welcome index"
-      copy_file "AngularJS-medium.png", 'app/assets/images/AngularJS-medium.png'
-      copy_file 'favicon.ico', 'app/assets/images/favicon.ico'
-      empty_directory 'app/assets/templates'
-      empty_directory 'app/assets/templates/welcome'
-      copy_file "index_welcome.html.erb", 'app/assets/templates/welcome/index.html.erb'
+      copy_file "AngularJS-medium.png", "app/assets/images/AngularJS-medium.png"
+      copy_file 'favicon.ico', "app/assets/images/favicon.ico"
+      empty_directory "app/assets/templates"
+      empty_directory "app/assets/templates/welcome"
+      copy_file "index_welcome.html.erb", "app/assets/templates/welcome/index.html.erb"
       if @language == 'coffeescript'
         copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
         insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, before: 'Client'
@@ -92,7 +92,7 @@ module Angularjs
           copy_file "#{prefix}_controller.js",
             "app/assets/javascripts/#{prefix}_controller.js"
         end
-        insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, :before => 'Client'
+        insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, before: 'Client'
       end
       append_to_file "app/assets/javascripts/application.js",
         "//= require routes\n"
