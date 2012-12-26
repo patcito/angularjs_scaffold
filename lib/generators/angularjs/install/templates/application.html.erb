@@ -11,7 +11,7 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
 
-    <%%= stylesheet_link_tag "application", :media => "all" %>
+    <%%= stylesheet_link_tag "application", media: "all" %>
     <%%= javascript_include_tag "application" %>
     <meta id='csrf' ng-controller="CsrfCtrl".
       data-csrf="<%%= form_authenticity_token%>">
@@ -34,9 +34,7 @@
           <a class="brand" href="/"><%= app_name %></a>
           <div class="<%= container_class %> nav-collapse">
             <ul class="nav">
-              <li><%%= link_to "Link1", "/path1"  %></li>
-              <li><%%= link_to "Link2", "/path2"  %></li>
-              <li><%%= link_to "Link3", "/path3"  %></li>
+              <!-- main menu models -->
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -51,12 +49,9 @@
           <!-- templates load here -->
             <div class="span3">
               <div class="well sidebar-nav">
-                <h3>Sidebar</h3>
                 <ul class="nav nav-list">
                   <li class="nav-header">Sidebar</li>
-                  <li><%%= link_to "Link1", "/path1"  %></li>
-                  <li><%%= link_to "Link2", "/path2"  %></li>
-                  <li><%%= link_to "Link3", "/path3"  %></li>
+                  <!-- sidebar menu models -->
                 </ul>
               </div><!--/.well -->
             </div><!--/span-->

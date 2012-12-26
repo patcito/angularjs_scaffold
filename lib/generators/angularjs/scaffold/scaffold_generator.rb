@@ -4,7 +4,7 @@ require 'rails/generators/generated_attribute'
 module Angularjs
   class ScaffoldGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
-    argument :controller_name, :type => :string
+    argument :controller_name, type: :string
 
     def language_option
       if File.exist?("app/assets/javascripts/routes.js.erb")
@@ -25,11 +25,6 @@ module Angularjs
       Rails.logger.info "@resource_name: #{@resource_name}"
       @plural_model_name = @resource_name.pluralize #posts
       Rails.logger.info "@plural_model_name: #{@plural_model_name}"
-      @model_name.constantize.columns.
-        each{|c|
-          (['name','title'].include?(c.name)) ? @resource_legend = c.name.capitalize : ''}
-      @resource_legend = 'ID' if @resource_legend.blank?
-      Rails.logger.info "@resource_legend: #{@resource_legend}"
       @language = language_option # 'coffeescript or javascript'
       Rails.logger.info "@language: #{@language}"
     end
@@ -53,14 +48,14 @@ module Angularjs
 
     def generate
       Rails.logger.info "columns: #{columns}"
-      remove_file "app/assets/stylesheets/scaffolds.css.scss"
+      remove_file "app/assets/stylesheets/scaffolds.css.scss" 
       append_to_file "app/assets/javascripts/application.js",
-        "//= require #{@plural_model_name}_controller \n"
+        "//= require #{@plural_model_name}_controller\n"
       append_to_file "app/assets/javascripts/application.js",
-        "//= require #{@plural_model_name} \n"
+        "//= require #{@plural_model_name}\n"
       if @language == 'coffeescript'
         insert_into_file "app/assets/javascripts/routes.coffee.erb",
-        ", \'#{@plural_model_name}\'", :before => "]"
+        ", \'#{@plural_model_name}\'", before: "]"
         insert_into_file "app/assets/javascripts/routes.coffee.erb",
 %{when("/#{@plural_model_name}", 
     controller: #{@controller}IndexCtrl
@@ -74,10 +69,10 @@ module Angularjs
   ).when("/#{@plural_model_name}/:id/edit",
     controller: #{@controller}EditCtrl
     templateUrl: "<%= asset_path(\"#{@plural_model_name}/edit.html\") %>"
-  ).}, :before => 'otherwise'
+  ).}, before: 'otherwise'
       else
         insert_into_file "app/assets/javascripts/routes.js.erb",
-        ", '#{@plural_model_name}'", :after => "'ngCookies'"
+        ", '#{@plural_model_name}'", after: "'ngCookies'"
         insert_into_file "app/assets/javascripts/routes.js.erb",
 %{    when('/#{@plural_model_name}', {controller:#{@controller}IndexCtrl,
          templateUrl:'<%= asset_path("#{@plural_model_name}/index.html") %>'}).
@@ -87,7 +82,7 @@ module Angularjs
          templateUrl:'<%= asset_path("#{@plural_model_name}/show.html") %>'}).
     when('/#{@plural_model_name}/:id/edit', {controller:#{@controller}EditCtrl,
          templateUrl:'<%= asset_path("#{@plural_model_name}/edit.html") %>'}).\n
-}, :before => 'otherwise'
+}, before: 'otherwise'
       end
       
       inject_into_class "app/controllers/#{@plural_model_name}_controller.rb",
@@ -100,17 +95,27 @@ module Angularjs
         "app/assets/templates/#{@plural_model_name}/show.html.erb"
       template "index.html.erb",
         "app/assets/templates/#{@plural_model_name}/index.html.erb"
+
+      model_index_link = "\n<li><%= link_to \'#{@controller_name}\', #{@plural_model_name}_path  %></li>"
+      
+      # insert_into_file "app/views/layouts/application.html.erb",  model_index_link,
+      #   after: "<!-- sidebar menu models -->"
+
+      insert_into_file "app/views/layouts/application.html.erb",  model_index_link,
+        after: "<!-- main menu models -->"
       
       if @language == 'coffeescript'
+        remove_file "app/assets/javascripts/#{@plural_model_name}.js"
+        remove_file "app/assets/javascripts/#{@plural_model_name}_controller.js"
         template "plural_model_name.js.coffee", "app/assets/javascripts/#{@plural_model_name}.js.coffee"
         template "plural_model_name_controller.js.coffee",
           "app/assets/javascripts/#{@plural_model_name}_controller.js.coffee"
       else
+        remove_file "app/assets/javascripts/#{@plural_model_name}.coffee"
+        remove_file "app/assets/javascripts/#{@plural_model_name}_controller.coffee"
         template "plural_model_name.js", "app/assets/javascripts/#{@plural_model_name}.js"
         template "plural_model_name_controller.js",
           "app/assets/javascripts/#{@plural_model_name}_controller.js"
-        # remove the default .js.coffee file added by rails.
-        remove_file "app/assets/javascripts/#{@plural_model_name}.js.coffee"
       end
     end
   end
