@@ -2,5 +2,6 @@ root = global ? window
 
 WelcomeCtrl = ["$scope", ($scope) ->
 ]
-root.Client.controller "WelcomeCtrl", WelcomeCtrl
+# exports
+root.thisApp.controller "WelcomeCtrl", WelcomeCtrl
 

@@ -59,7 +59,7 @@ module Angularjs
 
     def generate_welcome_controller
       @app_name = Rails.application.class.parent_name
-      Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
+      #Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
       remove_file "public/index.html" 
       uncomment_lines 'config/routes.rb', /root :to => 'welcome#index'/
         run "rails g controller welcome index"
@@ -70,7 +70,7 @@ module Angularjs
       copy_file "index_welcome.html.erb", "app/assets/templates/welcome/index.html.erb"
       if @language == 'coffeescript'
         remove_file 'app/assets/javascripts/routes.js.erb' 
-        Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
+        # Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
         copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
         insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, before: 'Client'
         ['csrf', 'welcome'].each do |prefix| 
@@ -78,18 +78,18 @@ module Angularjs
             "app/assets/javascripts/#{prefix}_controller.js.coffee"
           remove_file "app/assets/javascripts/#{prefix}_controller.js" 
         end
-        insert_into_file "app/assets/javascripts/welcome_controller.js.coffee", @app_name, before: 'Client'
+        # insert_into_file "app/assets/javascripts/welcome_controller.js.coffee", @app_name, before: 'Client'
       else # javascript
         remove_file 'app/assets/javascripts/routes.coffee.erb' #if File.exists?('app/assets/javascripts/routes.coffee.erb')
         copy_file "routes.js.erb", "app/assets/javascripts/routes.js.erb" #if File.exists?("app/assets/javascripts/routes.js.erb")
-        Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
+        # Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
         insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, before: 'Client'
         ['csrf', 'welcome'].each do |prefix| 
           copy_file "#{prefix}_controller.js",
             "app/assets/javascripts/#{prefix}_controller.js"
           remove_file "app/assets/javascripts/#{prefix}_controller.js.coffee" # if File.exists?("app/assets/javascripts/#{prefix}_controller.js.coffee")
         end
-        insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, before: 'Client'
+        # insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, before: 'Client'
       end
       append_to_file "app/assets/javascripts/application.js",
         "//= require routes\n"

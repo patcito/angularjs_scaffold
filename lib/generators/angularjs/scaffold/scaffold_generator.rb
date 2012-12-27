@@ -16,17 +16,17 @@ module Angularjs
     end
 
     def init_vars
-      Rails.logger.info "--> init_vars"
+      # Rails.logger.info "--> init_vars"
       @model_name = controller_name.singularize #"Post"
-      Rails.logger.info "@model_name: #{@model_name}"
+      # Rails.logger.info "@model_name: #{@model_name}"
       @controller = controller_name #"Posts"
-      Rails.logger.info "@controller: #{@controller}"
+      # Rails.logger.info "@controller: #{@controller}"
       @resource_name = @model_name.demodulize.underscore #post
-      Rails.logger.info "@resource_name: #{@resource_name}"
+      # Rails.logger.info "@resource_name: #{@resource_name}"
       @plural_model_name = @resource_name.pluralize #posts
-      Rails.logger.info "@plural_model_name: #{@plural_model_name}"
+      # Rails.logger.info "@plural_model_name: #{@plural_model_name}"
       @language = language_option # 'coffeescript or javascript'
-      Rails.logger.info "@language: #{@language}"
+      # Rails.logger.info "@language: #{@language}"
     end
 
     def columns
@@ -47,7 +47,7 @@ module Angularjs
     end
 
     def generate
-      Rails.logger.info "columns: #{columns}"
+      #Rails.logger.info "columns: #{columns}"
       remove_file "app/assets/stylesheets/scaffolds.css.scss" 
       append_to_file "app/assets/javascripts/application.js",
         "//= require #{@plural_model_name}_controller\n"
@@ -58,29 +58,29 @@ module Angularjs
         ", \'#{@plural_model_name}\'", before: "]"
         insert_into_file "app/assets/javascripts/routes.coffee.erb",
 %{when("/#{@plural_model_name}", 
-    controller: #{@controller}IndexCtrl
-    templateUrl: "<%= asset_path(\"#{@plural_model_name}/index.html\") %>"
+    controller: \'#{@controller}IndexCtrl\'
+    templateUrl: "<%= asset_path(\'#{@plural_model_name}/index.html\') %>"
   ).when("/#{@plural_model_name}/new",
-    controller: #{@controller}CreateCtrl
-    templateUrl: "<%= asset_path(\"#{@plural_model_name}/new.html\") %>"
+    controller: \'#{@controller}CreateCtrl\'
+    templateUrl: "<%= asset_path(\'#{@plural_model_name}/new.html\') %>"
   ).when("/#{@plural_model_name}/:id",
-    controller: #{@controller}ShowCtrl
-    templateUrl: "<%= asset_path(\"#{@plural_model_name}/show.html\") %>"
+    controller: \'#{@controller}ShowCtrl\'
+    templateUrl: "<%= asset_path(\'#{@plural_model_name}/show.html\') %>"
   ).when("/#{@plural_model_name}/:id/edit",
-    controller: #{@controller}EditCtrl
-    templateUrl: "<%= asset_path(\"#{@plural_model_name}/edit.html\") %>"
+    controller: \'#{@controller}EditCtrl\'
+    templateUrl: "<%= asset_path(\'#{@plural_model_name}/edit.html\') %>"
   ).}, before: 'otherwise'
       else
         insert_into_file "app/assets/javascripts/routes.js.erb",
         ", '#{@plural_model_name}'", after: "'ngCookies'"
         insert_into_file "app/assets/javascripts/routes.js.erb",
-%{    when('/#{@plural_model_name}', {controller:#{@controller}IndexCtrl,
+%{    when('/#{@plural_model_name}', {controller: \'#{@controller}IndexCtrl\',
          templateUrl:'<%= asset_path("#{@plural_model_name}/index.html") %>'}).
-    when('/#{@plural_model_name}/new', {controller:#{@controller}CreateCtrl,
+    when('/#{@plural_model_name}/new', {controller: \'#{@controller}CreateCtrl\',
                 templateUrl:'<%= asset_path("#{@plural_model_name}/new.html") %>'}).
-    when('/#{@plural_model_name}/:id', {controller:#{@controller}ShowCtrl,
+    when('/#{@plural_model_name}/:id', {controller: \'#{@controller}ShowCtrl\',
          templateUrl:'<%= asset_path("#{@plural_model_name}/show.html") %>'}).
-    when('/#{@plural_model_name}/:id/edit', {controller:#{@controller}EditCtrl,
+    when('/#{@plural_model_name}/:id/edit', {controller: \'#{@controller}EditCtrl\',
          templateUrl:'<%= asset_path("#{@plural_model_name}/edit.html") %>'}).\n
 }, before: 'otherwise'
       end
