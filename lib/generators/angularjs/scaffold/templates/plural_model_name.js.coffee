@@ -1,7 +1,7 @@
 root = global ? window
 
-angular.module(<%= '"' + "#{@plural_model_name}" + '"' %>, ["ngResource"]).factory <%= '"' + "#{@model_name}" + '"' %>, ($resource) ->
-  <%= "#{@model_name}" %> = $resource(<%= '"' + "/#{@plural_model_name}/:id" + '"'%>,
+angular.module("<%= @plural_model_name %>", ["ngResource"]).factory "<%= @model_name %>", ($resource) ->
+  <%= @model_name %> = $resource("/<%= @plural_model_name %>/:id",
     id: "@id"
   ,
     update:
@@ -10,11 +10,11 @@ angular.module(<%= '"' + "#{@plural_model_name}" + '"' %>, ["ngResource"]).facto
     destroy:
       method: "DELETE"
   )
-  <%= "#{@model_name}" %>::destroy = (cb) ->
-    <%= "#{@model_name}" %>.remove
+  <%= @model_name %>::destroy = (cb) ->
+    <%= @model_name %>.remove
       id: @id
     , cb
 
-  <%= "#{@model_name}" %>
+  <%= @model_name %>
 
 root.angular = angular
