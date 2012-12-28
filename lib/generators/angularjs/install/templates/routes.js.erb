@@ -6,16 +6,18 @@
 
   angular = root.angular;
 
-  thisApp = angular.module("Client", ["ngCookies"]).config(function($routeProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
-    return $routeProvider.when("/", {
-      controller: "WelcomeCtrl",
-      templateUrl: "<%= asset_path('welcome/index.html') %>"
-    }).otherwise({
-      redirectTo: "/"
-    });
-  });
-  // exports
+  thisApp = angular.module("Client", ['ngCookies']).config([
+    '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+      $locationProvider.html5Mode(true);
+      return $routeProvider.when("/", {
+        controller: "WelcomeCtrl",
+        templateUrl: "<%= asset_path('welcome/index.html') %>"
+      }).otherwise({
+        redirectTo: "/"
+      });
+    }
+  ]);
+
   root.thisApp = thisApp;
 
 }).call(this);
