@@ -11,8 +11,19 @@ module Angularjs
       desc: "Choose your preferred language, 'coffeescript' or 'javascript' "
 
     def init_angularjs
-      copy_file "application.css", "app/assets/stylesheets/application.css"
-      copy_file "application.js", "app/assets/javascripts/application.js"
+      if File.exist?('app/assets/javascripts/application.js')
+        insert_into_file "app/assets/javascripts/application.js",
+          "//= require_tree ./angularjs/\n", :after => "jquery_ujs\n"
+      else
+        copy_file "application.js", "app/assets/javascripts/application.js"
+      end
+      @application_css_file ='app/assets/stylesheets/application.css'
+      if (!(File.exist?('app/assets/stylesheets/application.css')) &&
+          File.exist?('app/assets/stylesheets/application.css.scss'))
+        @application_css_file ='app/assets/stylesheets/application.css.scss'
+      elsif !File.exist?('app/assets/stylesheets/application.css')
+        create_file @application_css_file
+      end
       directory "underscore", "app/assets/javascripts/underscore/"
       directory "angularjs", "app/assets/javascripts/angularjs/"
       if options["no-jquery"]
@@ -32,15 +43,15 @@ module Angularjs
         directory "bootstrap/css", "app/assets/stylesheets/bootstrap/"
         directory "bootstrap/js", "app/assets/javascripts/bootstrap/"
         directory "bootstrap/img", "app/assets/javascripts/img/"
-        insert_into_file "app/assets/stylesheets/application.css",
-          " *= require bootstrap/bootstrap.min.css\n", after: "require_self\n"
-        insert_into_file "app/assets/stylesheets/application.css",
+        insert_into_file @application_css_file,
+          " *= require bootstrap/bootstrap.min.css\n", :after => "require_self\n"
+        insert_into_file @application_css_file,
           " *= require bootstrap/bootstrap-responsive.min.css\n",
-          after: "bootstrap.min.css\n"
-        insert_into_file "app/assets/stylesheets/application.css",
+          :after => "bootstrap.min.css\n"
+        insert_into_file @application_css_file,
           " *= require fontawesome/font-awesome.css\n",
-          after: "bootstrap-responsive.min.css\n"
-        append_to_file "app/assets/stylesheets/application.css",
+          :after => "bootstrap-responsive.min.css\n"
+        append_to_file @application_css_file,
           "\nbody { padding-top: 60px; }\n"
         unless options["no-jquery"]
           insert_into_file "app/assets/javascripts/application.js",
@@ -58,9 +69,7 @@ module Angularjs
     end
 
     def generate_welcome_controller
-      @app_name = Rails.application.class.parent_name
-      #Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
-      remove_file "public/index.html" 
+      remove_file "public/index.html"
       uncomment_lines 'config/routes.rb', /root :to => 'welcome#index'/
         run "rails g controller welcome index"
       copy_file "AngularJS-medium.png", "app/assets/images/AngularJS-medium.png"
@@ -69,8 +78,9 @@ module Angularjs
       empty_directory "app/assets/templates/welcome"
       copy_file "index_welcome.html.erb", "app/assets/templates/welcome/index.html.erb"
       if @language == 'coffeescript'
-        remove_file 'app/assets/javascripts/routes.js.erb' 
-        # Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
+        if File.exists?('app/assets/javascripts/routes.js.erb')
+          remove_file 'app/assets/javascripts/routes.js.erb' 
+        end
         copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
         insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, before: 'Client'
         ['csrf', 'welcome'].each do |prefix| 
@@ -80,7 +90,9 @@ module Angularjs
         end
         # insert_into_file "app/assets/javascripts/welcome_controller.js.coffee", @app_name, before: 'Client'
       else # javascript
-        remove_file 'app/assets/javascripts/routes.coffee.erb' #if File.exists?('app/assets/javascripts/routes.coffee.erb')
+        if File.exists?('app/assets/javascripts/routes.coffee.erb')
+          remove_file 'app/assets/javascripts/routes.coffee.erb' 
+        end
         copy_file "routes.js.erb", "app/assets/javascripts/routes.js.erb" #if File.exists?("app/assets/javascripts/routes.js.erb")
         # Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
         insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, before: 'Client'
@@ -91,11 +103,11 @@ module Angularjs
         end
         # insert_into_file "app/assets/javascripts/welcome_controller.js", @app_name, before: 'Client'
       end
-      append_to_file "app/assets/javascripts/application.js",
-        "//= require routes\n"
-      append_to_file "app/assets/javascripts/application.js",
-        "//= require welcome_controller\n"
-      append_to_file "app/assets/stylesheets/application.css",
+      # append_to_file "app/assets/javascripts/application.js",
+      #   "//= require routes\n"
+      # append_to_file "app/assets/javascripts/application.js",
+      #   "//= require welcome_controller\n"
+      append_to_file @application_css_file,
         ".center {text-align: center;}\n"
       insert_into_file "app/controllers/application_controller.rb",
 %{
