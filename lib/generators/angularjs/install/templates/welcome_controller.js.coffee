@@ -1,9 +1,7 @@
 root = global ? window
 
-WelcomeCtrl = ($scope) ->
+thisApp = root.thisApp
 
-WelcomeCtrl.$inject ['$scope']
+thisApp.controller "WelcomeCtrl", ->
 
-# exports
-root.thisApp.controller "WelcomeCtrl", WelcomeCtrl
 
