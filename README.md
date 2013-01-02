@@ -1,5 +1,7 @@
 ## AngularjsScaffold + CoffeeScript
 
+## Now works with minified dependency injection!!
+
 A rails plugin for scaffolding views using Angular.js, Twitter bootstrap
 and font awesome
 
@@ -7,7 +9,7 @@ This project uses MIT-LICENSE.
 
 First install the gem or add it to your Gemfile:
 
-    $ gem install angularjs_scaffold
+    $ gem install explainer_angularjs_scaffold
 
 Second install it, this will add angularjs, bootstrap and fontawesome (there's an option to only install AngularJS)
 
