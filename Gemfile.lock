@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    angularjs_scaffold (0.0.20)
+    explainer_angularjs_scaffold (0.0.22)
       rails (~> 3.2.6)
 
 GEM
@@ -92,6 +92,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  angularjs_scaffold!
+  explainer_angularjs_scaffold!
   jquery-rails
   sqlite3
