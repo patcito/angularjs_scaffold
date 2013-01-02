@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    explainer_angularjs_scaffold (0.0.22)
+    explainer_angularjs_scaffold (0.0.23)
       rails (~> 3.2.6)
 
 GEM
