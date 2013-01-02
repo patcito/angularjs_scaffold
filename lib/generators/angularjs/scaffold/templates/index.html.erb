@@ -2,21 +2,26 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= @resource_legend %></th>
-      <th>Created at</th>
+      <%- columns.each do |column| -%>
+        <th><%= column.name.humanize %></th>
+      <%- end -%>
       <th>Actions</th>
     </tr>
   </thead>
+  <%- @columns = columns -%>
+  <%- tag_column = @columns.shift -%>
   <tbody>
     <tr ng-repeat="<%= @resource_name%> in <%= @plural_model_name%>">
       <td>
         <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}">
-          {{<%= "#{@resource_name}.#{@resource_legend.downcase}"%>}}
+          {{<%= "#{@resource_name}.#{tag_column.name}"%>}}
         </a>
       </td>
-      <td>
-        {{<%= @resource_name%>.created_at}}
-      </td>
+      <%- @columns.each do |column| -%>
+        <td>
+          {{<%= @resource_name%>.<%= column.name %>}}
+        </td>
+      <%- end -%>
       <td>
         <a href="/<%= @plural_model_name%>/{{<%= @resource_name%>.id}}/edit"
           class="btn btn-primary"><i class="icon-edit"></i>
