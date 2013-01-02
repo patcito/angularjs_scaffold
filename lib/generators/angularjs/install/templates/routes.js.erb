@@ -1,3 +1,9 @@
+(function() {
+  var angular, root, thisApp;
+
+  root = typeof global !== "undefined" && global !== null ? global : window;
+
+  angular = root.angular;
 var thisApp = angular.module("Client", ['ngCookies']).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   //$locationProvider.hashPrefix('');
@@ -7,4 +13,6 @@ var thisApp = angular.module("Client", ['ngCookies']).
       templateUrl:'<%= asset_path("welcome/index.html") %>'}).otherwise({redirectTo:'/'});
 }]);
 
+  root.thisApp = thisApp;
 
+}).call(this);

@@ -52,6 +52,7 @@ root = global ? window
 
 <%= @controller%>EditCtrl.$inject = ['$scope', '$location', '$routeParams', '<%= @model_name%>'];
 
+# exports
 root.<%= @controller%>IndexCtrl  = <%= @controller%>IndexCtrl
 root.<%= @controller%>CreateCtrl = <%= @controller%>CreateCtrl
 root.<%= @controller%>ShowCtrl   = <%= @controller%>ShowCtrl
