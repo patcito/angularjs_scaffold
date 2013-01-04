@@ -5,10 +5,10 @@ require "angularjs_scaffold/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "explainer/angularjs_scaffold"
+  s.name        = "angularjs_scaffold"
   s.version     = AngularjsScaffold::VERSION
-  s.authors     = ["Ken Burgett"]
-  s.email       = ["keburgett@gmail.com"]
+  s.authors     = ["Patrick Aljord", "Ken Burgett"]
+  s.email       = ["patcito@gmail.com"]
   s.homepage    = "http://ricodigo.com"
   s.summary     = "Angularjs scaffolding."
   s.description = "A rails plugin for scaffolding views using Angular.js, Twitter bootstrap and font awesome."
