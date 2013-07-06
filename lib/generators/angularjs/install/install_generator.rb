@@ -79,24 +79,24 @@ module Angularjs
       copy_file "index_welcome.html.erb", "app/assets/templates/welcome/index.html.erb"
       if @language == 'coffeescript'
         if File.exists?('app/assets/javascripts/routes.js.erb')
-          remove_file 'app/assets/javascripts/routes.js.erb' 
+          remove_file 'app/assets/javascripts/routes.js.erb'
         end
         copy_file "routes.coffee.erb", "app/assets/javascripts/routes.coffee.erb"
         insert_into_file "app/assets/javascripts/routes.coffee.erb", @app_name, before: 'Client'
-        ['csrf', 'welcome'].each do |prefix| 
+        ['csrf', 'welcome'].each do |prefix|
           copy_file "#{prefix}_controller.js.coffee",
             "app/assets/javascripts/#{prefix}_controller.js.coffee"
-          remove_file "app/assets/javascripts/#{prefix}_controller.js" 
+          remove_file "app/assets/javascripts/#{prefix}_controller.js"
         end
         # insert_into_file "app/assets/javascripts/welcome_controller.js.coffee", @app_name, before: 'Client'
       else # javascript
         if File.exists?('app/assets/javascripts/routes.coffee.erb')
-          remove_file 'app/assets/javascripts/routes.coffee.erb' 
+          remove_file 'app/assets/javascripts/routes.coffee.erb'
         end
         copy_file "routes.js.erb", "app/assets/javascripts/routes.js.erb" #if File.exists?("app/assets/javascripts/routes.js.erb")
         # Rails.logger.info "#{__FILE__}, #{__LINE__}, @app_name: #{@app_name}"
         insert_into_file "app/assets/javascripts/routes.js.erb", @app_name, before: 'Client'
-        ['csrf', 'welcome'].each do |prefix| 
+        ['csrf', 'welcome'].each do |prefix|
           copy_file "#{prefix}_controller.js",
             "app/assets/javascripts/#{prefix}_controller.js"
           remove_file "app/assets/javascripts/#{prefix}_controller.js.coffee" # if File.exists?("app/assets/javascripts/#{prefix}_controller.js.coffee")
@@ -118,7 +118,8 @@ module Angularjs
   def verified_request?
     !protect_against_forgery? || request.get? ||
       form_authenticity_token == params[request_forgery_protection_token] ||
-      form_authenticity_token == request.headers['X-XSRF-Token']
+      form_authenticity_token == request.headers['X-CSRF-Token'] ||
+      form_authenticity_token == (request.headers['X-XSRF-Token'].chomp('"').reverse.chomp('"').reverse if request.headers['X-XSRF-Token'])
   end
  }, before: "end"
 
